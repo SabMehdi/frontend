@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { AxiosError } from 'axios';
 
 const FileUpload = () => {
   const [invertedIndex, setInvertedIndex] = useState(null);
@@ -21,15 +22,25 @@ const FileUpload = () => {
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
-      const response = await axios.post('http://localhost:8000/api/process-text/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setInvertedIndex(response.data.inverted_index);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
+        const response = await axios.post('http://localhost:8000/api/process-text/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setInvertedIndex(response.data.inverted_index);
+      } catch (error: AxiosError | any) { // Specify AxiosError or any
+        if (error.response) {
+          // The request was made, but the server responded with an error
+          console.error('Server Error:', error.response.data);
+        } else if (error.request) {
+          // The request was made, but no response was received
+          console.error('No Response from Server:', error.request);
+        } else {
+          // Something else happened while setting up the request
+          console.error('Request Error:', error.message);
+        }
+      }
+      
   };
 
   return (

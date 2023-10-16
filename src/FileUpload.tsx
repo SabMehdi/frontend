@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
+import './FileUpload.css';
+type InvertedIndex = Record<string, number[]>;
 
 const FileUpload = () => {
-  const [invertedIndex, setInvertedIndex] = useState(null);
+  const [invertedIndex, setInvertedIndex] = useState<InvertedIndex | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,7 +17,7 @@ const FileUpload = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError('Please select a file.'); // Set the error message
+      setError('Veuillez choisir un fichier!'); // Set the error message
       return;
     }
 
@@ -28,32 +30,64 @@ const FileUpload = () => {
         },
       });
       setInvertedIndex(response.data.inverted_index);
+      //console.log(response.data.inverted_index)
     } catch (error: AxiosError | any) {
       if (error.response) {
-          // The request was made, but the server responded with an error
         console.error('Server Error:', error.response.data);
       } else if (error.request) {
-          // The request was made, but no response was received
         console.error('No Response from Server:', error.request);
       } else {
-          // Something else happened while setting up the request
         console.error('Request Error:', error.message);
       }
     }
   };
 
+  // Render the table with results
+  const renderResultTable = () => {
+    if (!invertedIndex) {
+      return null; // No results to display
+    }
+
+    const fileName = selectedFile?.name || 'Unknown File';
+    
+    const tableRows = Object.entries(invertedIndex).map(([word, occurrences], index) => (
+      
+      <tr key={index}>
+        <td>{index}</td>
+        <td>{word}</td>
+        <td>{occurrences.length}</td>
+        <td>{occurrences.join(', ')}</td>
+      </tr>
+
+    ));
+
+    return (
+      <div style={{textAlign:'center'}}>
+        <h2>{fileName}, {tableRows.length} mots   </h2>
+        <table style={{ margin: '0 auto',border:'1px solid' }}>
+
+          <thead>
+            <tr >
+              <th >N°</th>  
+              <th>Mot</th>  
+              <th>Fréquence</th>
+              <th>Occurrence</th>
+            </tr>
+          </thead>
+          
+          <tbody>{tableRows}</tbody>
+        </table>
+      </div>
+    );
+  };
+  
   return (
     <div>
-      <h1>Upload a Text File</h1>
-      <input type="file" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload</button>
-      {error && <div className="error-message">{error}</div>} {/* Display error message */}
-      {invertedIndex && (
-        <div>
-          <h2>Inverted Index:</h2>
-          <pre>{JSON.stringify(invertedIndex, null, 2)}</pre>
-        </div>
-      )}
+      <h1>Veuiller séléctionner un fichier</h1>
+      <input type="file" onChange={handleFileChange} accept=".txt" title="choisir un fichier" />
+      <button onClick={handleUpload}>Analyser</button>
+      {error && <div className="error-message">{error}</div>}
+      {renderResultTable()}
     </div>
   );
 };

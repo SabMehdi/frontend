@@ -7,20 +7,21 @@ const FileUpload = () => {
   const [invertedIndex, setInvertedIndex] = useState<InvertedIndex | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading]=useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
-      setError(null); // Clear any previous error message
+      setError(null); 
     }
   };
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError('Veuillez choisir un fichier!'); // Set the error message
+      setError('Veuillez choisir un fichier!'); 
       return;
     }
-
+    setLoading(true)
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
@@ -29,9 +30,11 @@ const FileUpload = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
+      setLoading(false)
       setInvertedIndex(response.data.inverted_index);
       //console.log(response.data.inverted_index)
     } catch (error: AxiosError | any) {
+      setLoading(false)
       if (error.response) {
         console.error('Server Error:', error.response.data);
       } else if (error.request) {
@@ -42,10 +45,13 @@ const FileUpload = () => {
     }
   };
 
-  // Render the table with results
+ 
   const renderResultTable = () => {
+    if(loading){
+      return <div>chargement...</div>
+    }
     if (!invertedIndex) {
-      return null; // No results to display
+      return null; 
     }
 
     const fileName = selectedFile?.name || 'Unknown File';

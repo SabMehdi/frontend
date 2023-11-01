@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Header.css'; // Import a CSS file to style the header (create this file)
+import { Link } from 'react-router-dom';
+import TagCloudPage from './Cloud';
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -17,13 +19,7 @@ const Header: React.FC = () => {
               <a href="/">Home</a>
             </li>
             <li>
-              <a href="#">About</a>
-            </li>
-            <li>
-              <a href="#">Services</a>
-            </li>
-            <li>
-              <a href="#">Contact</a>
+              <Link to='/cloud'>Cloud</Link>
             </li>
           </ul>
           <div className="menu-icon" onClick={toggleMenu}>

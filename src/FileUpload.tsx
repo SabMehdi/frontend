@@ -35,6 +35,8 @@ const FileUpload = () => {
       //console.log(response.data.inverted_index)
     } catch (error: AxiosError | any) {
       setLoading(false)
+      if (error.response && error.response.status === 400) {
+      } setError('Ce fichier a déjà été analysé.');
       if (error.response) {
         console.error('Server Error:', error.response.data);
       } else if (error.request) {

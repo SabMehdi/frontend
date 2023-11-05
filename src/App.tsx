@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import FileUpload from './FileUpload';
 import Header from './Header';
 import TagCloudPage from './Cloud';
+import SearchComponent from './SearchEngine';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Routes>
       <Route path='/' Component={FileUpload}/>
       <Route path='/cloud' Component={TagCloudPage}/>
-        
+      <Route path='/search' Component={SearchComponent}/>
       </Routes>
     </BrowserRouter>
   );

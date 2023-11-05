@@ -20,6 +20,9 @@ const Header: React.FC = () => {
             </li>
             <li>
               <Link to='/cloud'>Cloud</Link>
+            </li> 
+            <li>
+              <Link to='/search'>Search engine</Link>
             </li>
           </ul>
           <div className="menu-icon" onClick={toggleMenu}>

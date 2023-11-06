@@ -5,9 +5,12 @@ import './SearchComponent.css'; // Make sure to create this CSS file
 interface Suggestion {
     id: number;
     name: string;
-    content_preview: string
+    content_previews: Preview[]; // Now it's an array of Preview objects
 }
-
+interface Preview{
+    text:string,
+    position: number
+}
 const SearchComponent: React.FC = () => {
     const [query, setQuery] = useState<string>('');
     const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -30,26 +33,31 @@ const SearchComponent: React.FC = () => {
     };
 
     return (
-        <div className="search-container">
-            <input
-                type="text"
-                value={query}
-                onChange={handleInputChange}
-                placeholder="Search..."
-                className="search-input"
-            />
-            {suggestions.length > 0 && (
-                <ul className="suggestions-dropdown">
-                    {suggestions.map((suggestion) => (
+      <div className="search-container">
+  <input
+    type="text"
+    value={query}
+    onChange={handleInputChange}
+    placeholder="Search..."
+    className="search-input"
+  />
+  {suggestions.length > 0 && (
+    <ul className="suggestions-dropdown">
+      {suggestions.map((suggestion) => (
+        <li key={suggestion.id} className="suggestion-item">
+          <h4>{suggestion.name}</h4>
+          {suggestion.content_previews.map((preview, index) => (
+            <div key={index} className="preview-item">
+              <label>Position {preview.position}:</label>
+              <p>{preview.text}</p>
+            </div>
+          ))}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
 
-                        <li key={suggestion.id} className="suggestion-item">
-                            <h4>{suggestion.name}</h4>
-                            {suggestion.content_preview}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
     );
 };
 

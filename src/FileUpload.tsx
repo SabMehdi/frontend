@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import './FileUpload.css';
-type InvertedIndex = Record<string, number[]>;
+type WordData = {
+  positions: number[];
+  pos: string;
+};
+
+type InvertedIndex = Record<string, WordData>;
 
 const FileUpload = () => {
   const [invertedIndex, setInvertedIndex] = useState<InvertedIndex | null>(null);
@@ -49,45 +54,45 @@ const FileUpload = () => {
 
  
   const renderResultTable = () => {
-    if(loading){
-      return <div>chargement...</div>
+    if (loading) {
+      return <div>Chargement...</div>;
     }
+  
     if (!invertedIndex) {
-      return null; 
+      return null;
     }
-
+  
     const fileName = selectedFile?.name || 'Unknown File';
-    
-    const tableRows = Object.entries(invertedIndex).map(([word, occurrences], index) => (
-      
+  
+    const tableRows = Object.entries(invertedIndex).map(([word, data], index) => (
       <tr key={index}>
-        <td>{index}</td>
+        <td>{index + 1}</td>
         <td>{word}</td>
-        <td>{occurrences.length}</td>
-        <td>{occurrences.join(', ')}</td>
+        <td>{data.pos}</td> {/* Display POS */}
+        <td>{data.positions.length}</td>
+        <td>{data.positions.join(', ')}</td>
       </tr>
-
     ));
-
+  
     return (
-      <div style={{textAlign:'center'}}>
-        <h2>{fileName}, {tableRows.length} mots   </h2>
-        <table style={{ margin: '0 auto',border:'1px solid' }}>
-
+      <div style={{ textAlign: 'center' }}>
+        <h2>{fileName}, {tableRows.length} mots</h2>
+        <table style={{ margin: '0 auto', border: '1px solid' }}>
           <thead>
-            <tr >
-              <th >N°</th>  
-              <th>Mot</th>  
+            <tr>
+              <th>N°</th>
+              <th>Mot</th>
+              <th>Type</th> {/* Added column for POS */}
               <th>Fréquence</th>
               <th>Occurrence</th>
             </tr>
           </thead>
-          
           <tbody>{tableRows}</tbody>
         </table>
       </div>
     );
   };
+  
   
   return (
     <div>

@@ -1,14 +1,22 @@
 import React from 'react';
 
+interface WordData {
+  positions: number[];
+  pos: string;
+  original: string; // Store the original word
+}
+
 interface TagCloudProps {
-  invertedIndexData: { [key: string]: number[] };
+  invertedIndexData: Record<string, WordData>;
 }
 
 const TagCloud: React.FC<TagCloudProps> = ({ invertedIndexData }) => {
+  // Function to calculate the font size based on the frequency
   const calculateFontSize = (frequency: number): number => {
-    return Math.log2(frequency) * 5 + 12; 
+    return Math.log2(frequency) * 10 + 12; // Increased multiplier for larger variation
   };
 
+  // Function to calculate the color based on the frequency
   const calculateColor = (frequency: number): string => {
     const colors = ['#E57373', '#F06292', '#BA68C8', '#9575CD', '#7986CB', '#64B5F6', '#4FC3F7', '#4DB6AC', '#81C784', '#AED581'];
     const index = frequency % colors.length;
@@ -17,21 +25,21 @@ const TagCloud: React.FC<TagCloudProps> = ({ invertedIndexData }) => {
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-      {Object.entries(invertedIndexData).map(([word, occurrences]) => (
+      {Object.entries(invertedIndexData).map(([lemma, data]) => (
         <span
-          key={word}
+          key={lemma}
           style={{
-            fontSize: `${calculateFontSize(occurrences.length)}px`,
-            color: calculateColor(occurrences.length),
+            fontSize: `${calculateFontSize(data.positions.length)}px`,
+            color: calculateColor(data.positions.length),
             margin: '10px',
             transition: 'transform 0.1s ease',
             cursor: 'pointer',
           }}
-          title={`Occurrences: ${occurrences.length}`}
+          title={`Occurrences: ${data.positions.length}`}
           onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
           onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
-          {word}
+          {data.original} {/* Display the original word */}
         </span>
       ))}
     </div>

@@ -6,6 +6,7 @@ import FileUpload from './FileUpload';
 import Header from './Header';
 import TagCloudPage from './Cloud';
 import SearchComponent from './SearchEngine';
+import DocumentPage from './DocumentPage';
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
       <Route path='/' Component={FileUpload}/>
       <Route path='/cloud' Component={TagCloudPage}/>
       <Route path='/search' Component={SearchComponent}/>
+      <Route path="/document/:id" Component={DocumentPage} />
+
       </Routes>
     </BrowserRouter>
   );

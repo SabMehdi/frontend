@@ -1,64 +1,63 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SearchComponent.css'; // Make sure to create this CSS file
 
-interface Suggestion {
-    id: number;
-    name: string;
-    content_previews: Preview[]; // Now it's an array of Preview objects
+interface Preview {
+  text: string;
+  position: number;
 }
-interface Preview{
-    text:string,
-    position: number
+
+interface SearchResult {
+  id: number;
+  name: string;
+  content_previews: Preview[];
 }
+
 const SearchComponent: React.FC = () => {
-    const [query, setQuery] = useState<string>('');
-    const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [query, setQuery] = useState<string>('');
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
 
-    const handleInputChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        setQuery(value);
+  const handleSearch = async () => {
+    setIsSearching(true);
+    try {
+      const response = await axios.get(`http://localhost:8000/api/search-word?q=${query}`);
 
-        if (value.length > 1) {
-            try {
-                const response = await axios.get(`http://localhost:8000/api/autocomplete/?q=${value}`);
-                setSuggestions(response.data);
-            } catch (error) {
-                console.error('Error fetching suggestions:', error);
-                setSuggestions([]);
-            }
-        } else {
-            setSuggestions([]);
-        }
-    };
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
-    return (
-      <div className="search-container">
-  <input
-    type="text"
-    value={query}
-    onChange={handleInputChange}
-    placeholder="Search..."
-    className="search-input"
-  />
-  {suggestions.length > 0 && (
-    <ul className="suggestions-dropdown">
-      {suggestions.map((suggestion) => (
-        <li key={suggestion.id} className="suggestion-item">
-          <h4>{suggestion.name}</h4>
-          {suggestion.content_previews.map((preview, index) => (
-            <div key={index} className="preview-item">
-              <label>Position {preview.position}:</label>
-              <p>{preview.text}</p>
-            </div>
-          ))}
-        </li>
-      ))}
-    </ul>
-  )}
-</div>
+  const handleResultClick = (resultId: number) => {
+    // Redirect to the document view
+    window.location.href = `/document/${resultId}`;
+  };
 
-    );
+  return (
+    <div>
+      <input
+        type="text"
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+      <button onClick={handleSearch} disabled={isSearching}>
+        Search
+      </button>
+      <div>
+        {searchResults.map((result) => (
+          <div key={result.id} onClick={() => handleResultClick(result.id)}>
+            <h4>{result.name}</h4>
+            {result.content_previews.map((preview, index) => (
+              <p key={index}>{preview.text}</p>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default SearchComponent;

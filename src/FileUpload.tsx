@@ -12,18 +12,29 @@ const FileUpload = () => {
   const [invertedIndex, setInvertedIndex] = useState<InvertedIndex | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleAnalyzeDirectory = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post('http://localhost:8000/api/analyze_directory/');  // URL of your new Django view
+      console.log(response.data);
+      setLoading(false);
+    } catch (error) {
+      // ... error handling ...
+    }
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
       setSelectedFile(event.target.files[0]);
-      setError(null); 
+      setError(null);
     }
   };
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError('Veuillez choisir un fichier!'); 
+      setError('Veuillez choisir un fichier!');
       return;
     }
     setLoading(true)
@@ -52,18 +63,18 @@ const FileUpload = () => {
     }
   };
 
- 
+
   const renderResultTable = () => {
     if (loading) {
       return <div>Chargement...</div>;
     }
-  
+
     if (!invertedIndex) {
       return null;
     }
-  
+
     const fileName = selectedFile?.name || 'Unknown File';
-  
+
     const tableRows = Object.entries(invertedIndex).map(([word, data], index) => (
       <tr key={index}>
         <td>{index + 1}</td>
@@ -73,9 +84,11 @@ const FileUpload = () => {
         <td>{data.positions.join(', ')}</td>
       </tr>
     ));
-  
+
     return (
+
       <div style={{ textAlign: 'center' }}>
+
         <h2>{fileName}, {tableRows.length} mots</h2>
         <table style={{ margin: '0 auto', border: '1px solid' }}>
           <thead>
@@ -92,10 +105,12 @@ const FileUpload = () => {
       </div>
     );
   };
-  
-  
+
+
   return (
     <div>
+      <button onClick={handleAnalyzeDirectory}>Analyze Directory</button>  {/* New button for directory analysis */}
+
       <h1>Veuiller séléctionner un fichier</h1>
       <input type="file" onChange={handleFileChange} accept=".txt" title="choisir un fichier" />
       <button onClick={handleUpload}>Analyser</button>

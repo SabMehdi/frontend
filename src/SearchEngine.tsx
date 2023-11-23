@@ -10,6 +10,7 @@ interface SearchResult {
   id: number;
   name: string;
   content_previews: Preview[];
+  path:string;
 }
 
 const SearchComponent: React.FC = () => {
@@ -49,7 +50,9 @@ const SearchComponent: React.FC = () => {
       <div>
         {searchResults.map((result) => (
           <div key={result.id} onClick={() => handleResultClick(result.id)}>
-            <h4>{result.name}</h4>
+            <span>{result.name}</span>
+            <br/>
+            <span>{result.path}</span>
             {result.content_previews.map((preview, index) => (
               <p key={index}>{preview.text}</p>
             ))}

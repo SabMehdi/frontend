@@ -9,7 +9,7 @@ const DocumentPage: React.FC = () => {
   useEffect(() => {
     const fetchDocument = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/document/${id}`);
+        const response = await axios.get(`http://localhost:8000/api/document/${id}/`);
         setDocumentContent(response.data.content);
       } catch (error) {
         console.error('Error fetching document:', error);

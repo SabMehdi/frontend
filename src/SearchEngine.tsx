@@ -33,7 +33,7 @@ const SearchComponent: React.FC = () => {
 
   const handleResultClick = (resultId: number) => {
     // Redirect to the document view
-    window.location.href = `/document/${resultId}`;
+    window.location.href = `/document/${resultId}?query=${encodeURIComponent(query)}`;
   };
 
   return (

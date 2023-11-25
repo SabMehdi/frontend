@@ -10,7 +10,7 @@ interface SearchResult {
   id: number;
   name: string;
   content_previews: Preview[];
-  path:string;
+  path: string;
 }
 
 const SearchComponent: React.FC = () => {
@@ -30,11 +30,11 @@ const SearchComponent: React.FC = () => {
       setIsSearching(false);
     }
   };
-
-  const handleResultClick = (resultId: number) => {
-    // Redirect to the document view
-    window.location.href = `/document/${resultId}?query=${encodeURIComponent(query)}`;
+  const handleResultClick = (resultId: number, position: number) => {
+    window.location.href = `/document/${resultId}?query=${encodeURIComponent(query)}&position=${position}`;
+    console.log(position)
   };
+
 
   return (
     <div>
@@ -49,15 +49,19 @@ const SearchComponent: React.FC = () => {
       </button>
       <div>
         {searchResults.map((result) => (
-          <div key={result.id} onClick={() => handleResultClick(result.id)}>
+          <div key={result.id}>
             <span>{result.name}</span>
-            <br/>
+            <br />
             <span>{result.path}</span>
             {result.content_previews.map((preview, index) => (
-              <p key={index}>{preview.text}</p>
+            <p key={index} onClick={() => handleResultClick(result.id, preview.position)}>
+            {preview.text}
+          </p>
+          
             ))}
           </div>
         ))}
+
       </div>
     </div>
   );

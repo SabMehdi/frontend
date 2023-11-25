@@ -15,6 +15,7 @@ const DocumentPage: React.FC = () => {
 
   const queryParams = new URLSearchParams(location.search);
   const searchQuery = queryParams.get('query');
+  const highlightPosition = parseInt(queryParams.get('position') || '0', 10);
 
   useEffect(() => {
     const fetchDocument = async () => {
@@ -29,21 +30,41 @@ const DocumentPage: React.FC = () => {
     fetchDocument();
   }, [id]);
 
-  const highlightQuery = (content: string, query: string | null) => {
+  const highlightQueryAtPosition = (content:string, query:string, position:number) => {
     if (!query) return content;
-    const regex = new RegExp(`(${query})`, 'gi');
-    return content.split(regex).map((part, index) => 
-      regex.test(part) ? <span key={index} style={{ color: 'red' }}>{part}</span> : part
+  
+    // Find the exact start position of the query from the given position
+    let start = content.toLowerCase().indexOf(query.toLowerCase(), position);
+    if (start === -1) return content; // Query not found
+  
+    let end = start + query.length;
+  
+    // Split and reconstruct with highlight
+    let before = content.substring(0, start);
+    let highlighted = content.substring(start, end);
+    let after = content.substring(end);
+  
+    return (
+      <span>
+        {before}
+        <span key={start} style={{ color: 'red' }}>{highlighted}</span>
+        {after}
+      </span>
     );
   };
-
+  
+  
+  
+  const renderedContent = documentData && searchQuery
+    ? highlightQueryAtPosition(documentData.content, searchQuery, highlightPosition)
+    : documentData?.content;
+console.log(renderedContent )
   return (
     <div>
       <h1>{documentData?.name}</h1>
       <h2>{documentData?.path}</h2>
-      <div>{documentData && highlightQuery(documentData.content, searchQuery)}</div>
+      <div>{renderedContent}</div>
     </div>
   );
 };
-
 export default DocumentPage;

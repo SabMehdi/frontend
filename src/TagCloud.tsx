@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 interface WordData {
   positions: number[];
   pos: string;
@@ -26,21 +26,28 @@ const TagCloud: React.FC<TagCloudProps> = ({ invertedIndexData }) => {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
       {Object.entries(invertedIndexData).map(([lemma, data]) => (
-        <span
-          key={lemma}
-          style={{
-            fontSize: `${calculateFontSize(data.positions.length)}px`,
-            color: calculateColor(data.positions.length),
-            margin: '10px',
-            transition: 'transform 0.1s ease',
-            cursor: 'pointer',
-          }}
-          title={`Occurrences: ${data.positions.length}`}
-          onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
-          onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+        <Link
+        to={`/search?q=${encodeURIComponent(data.original)}`}
+        style={{
+          fontSize: `${calculateFontSize(data.positions.length)}px`,
+          color: calculateColor(data.positions.length),
+          margin: '10px',
+          transition: 'transform 0.1s ease',
+          cursor: 'pointer',
+          
+        }}
+        title={`Occurrences: ${data.positions.length}`}
+        onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.2)'}
+        onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
+
+        key={lemma}
         >
-          {data.original} {/* Display the original word */}
-        </span>
+        {data.original}
+        </Link>
+
+
+
+
       ))}
     </div>
   );

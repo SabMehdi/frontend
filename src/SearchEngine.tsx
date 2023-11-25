@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 interface Preview {
   text: string;
   position: number;
@@ -17,6 +18,32 @@ const SearchComponent: React.FC = () => {
   const [query, setQuery] = useState<string>('');
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const queryParam = queryParams.get('q');
+  
+    // Define an async function inside useEffect
+    const fetchData = async () => {
+      if (queryParam) {
+        setIsSearching(true);
+        try {
+          const response = await axios.get(`http://localhost:8000/api/search-word?q=${queryParam}`);
+          setQuery(queryParam); // Update the query state
+          setSearchResults(response.data);
+        } catch (error) {
+          console.error('Error fetching search results:', error);
+        } finally {
+          setIsSearching(false);
+        }
+      }
+    };
+  
+    // Call the async function
+    fetchData();
+  }, [location]);
+  
 
   const handleSearch = async () => {
     setIsSearching(true);

@@ -1,3 +1,71 @@
-table, th, td {
-    border: 1px solid;
-  }
+table,
+th,
+td {
+  border: 1px solid;
+}
+
+.file-upload-container {
+  font-family: Arial, sans-serif;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.file-upload-header {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.file-upload-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.file-upload-button:hover {
+  background-color: #0056b3;
+}
+
+.file-upload-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.result-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.result-table th,
+.result-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.result-table th {
+  background-color: #f8f8f8;
+}
+
+.result-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

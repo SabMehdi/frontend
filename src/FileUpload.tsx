@@ -34,20 +34,20 @@ const FileUpload = () => {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      setError('Veuillez choisir un fichier!');
-      return;
+        setError('Veuillez choisir un fichier!');
+        return;
     }
     setLoading(true)
     const formData = new FormData();
     formData.append('file', selectedFile);
     try {
-      const response = await axios.post('http://localhost:8000/api/process-text/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setLoading(false)
-      setInvertedIndex(response.data.inverted_index);
+        const response = await axios.post('http://localhost:8000/api/process-single-file/', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        setLoading(false)
+        setInvertedIndex(response.data.processed_data);
       //console.log(response.data.inverted_index)
     } catch (error: AxiosError | any) {
       setLoading(false)
@@ -108,16 +108,17 @@ const FileUpload = () => {
 
 
   return (
-    <div>
-      <button onClick={handleAnalyzeDirectory}>Analyze Directory</button>  {/* New button for directory analysis */}
-
-      <h1>Veuiller séléctionner un fichier</h1>
-      <input type="file" onChange={handleFileChange} accept=".txt" title="choisir un fichier" />
-      <button onClick={handleUpload}>Analyser</button>
+    <div className="file-upload-container">
+      <h1 className="file-upload-header">Veuiller sélectionner un fichier</h1>
+      <input className="file-upload-input" type="file" onChange={handleFileChange}  title="choisir un fichier" />
+      <button className="file-upload-button" onClick={handleUpload}>Analyser</button>
+      <button className="file-upload-button" onClick={handleAnalyzeDirectory}>Analyze Directory</button> {/* Reintegrated button */}
       {error && <div className="error-message">{error}</div>}
       {renderResultTable()}
     </div>
   );
+  
+
 };
 
 export default FileUpload;

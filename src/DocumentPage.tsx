@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
-
+import './DocumentPage.css'
 interface DocumentData {
   name: string;
   content: string;
@@ -29,17 +29,14 @@ const DocumentPage: React.FC = () => {
 
     fetchDocument();
   }, [id]);
-
   const highlightQueryAtPosition = (content:string, query:string, position:number) => {
     if (!query) return content;
   
-    // Find the exact start position of the query from the given position
     let start = content.toLowerCase().indexOf(query.toLowerCase(), position);
-    if (start === -1) return content; // Query not found
+    if (start === -1) return content; // Query not found at the specified position
   
     let end = start + query.length;
   
-    // Split and reconstruct with highlight
     let before = content.substring(0, start);
     let highlighted = content.substring(start, end);
     let after = content.substring(end);
@@ -47,23 +44,21 @@ const DocumentPage: React.FC = () => {
     return (
       <span>
         {before}
-        <span key={start} style={{ color: 'red' }}>{highlighted}</span>
+        <span style={{ backgroundColor: 'yellow', color: 'black' }}>{highlighted}</span>
         {after}
       </span>
     );
   };
   
-  
-  
   const renderedContent = documentData && searchQuery
     ? highlightQueryAtPosition(documentData.content, searchQuery, highlightPosition)
     : documentData?.content;
-console.log(renderedContent )
+
   return (
     <div>
       <h1>{documentData?.name}</h1>
       <h2>{documentData?.path}</h2>
-      <div>{renderedContent}</div>
+      <div className="document-content">{renderedContent}</div>
     </div>
   );
 };

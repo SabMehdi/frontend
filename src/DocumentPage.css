@@ -1,0 +1,9 @@
+.document-content {
+    white-space: pre-wrap; /* Preserves whitespace and line breaks */
+  }
+  
+  .highlighted-text {
+    color: red;
+    background-color: yellow;
+  }
+  

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import './SearchComponent.css';
+
 interface Preview {
   text: string;
   position: number;
@@ -58,7 +60,7 @@ const SearchComponent: React.FC = () => {
     // Call the async function
     fetchData();
   }, [location]);
-  
+
   const handleSuggestionClick = (suggestedWord: string) => {
     setQuery(suggestedWord); // Update the query state for future use
     handleSearch(suggestedWord); // Pass the suggestion directly to handleSearch
@@ -91,46 +93,51 @@ const SearchComponent: React.FC = () => {
 
 
   return (
-    <div>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search..."
-      />
-      <button onClick={() => { handleSearch(query); }} disabled={isSearching}>
-        Search
-      </button>
+  <div className="search-container">
+    <input
+      className="search-input"
+      type="text"
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      placeholder="Search..."
+    />
+    <button 
+      className="search-button"
+      onClick={() => { handleSearch(query); }}
+      disabled={isSearching}
+    >
+      Search
+    </button>
 
-      <div>
-        {searchResults.length > 0 ? (
-          searchResults.map((result) => (
-            <div key={result.id}>
-              <span>{result.name}</span>
-              <br />
-              <span>{result.path}</span>
-              {result.content_previews.map((preview, index) => (
-                <p key={index} onClick={() => handleResultClick(result.id, preview.position)}>
-                  {preview.text}
-                </p>
-
-              ))}
-            </div>))
-        ) : (
-          suggestions.length > 0 && (
-            <div>
-              <div>Suggestions:</div>
-              {suggestions.map((suggestion, index) => (
-                <p key={index} onClick={() => handleSuggestionClick(suggestion)}>
-                  {suggestion}
-                </p>
-              ))}
-            </div>
-          )
-        )}
-      </div>
+    <div className="search-results">
+      {searchResults.length > 0 ? (
+        searchResults.map((result) => (
+          <div key={result.id} className="search-result">
+            <span>{result.name}</span>
+            <br />
+            <span>{result.path}</span>
+            {result.content_previews.map((preview, index) => (
+              <p key={index} onClick={() => handleResultClick(result.id, preview.position)}>
+                {preview.text}
+              </p>
+            ))}
+          </div>))
+      ) : (
+        suggestions.length > 0 && (
+          <div className="search-suggestions">
+            <div>Suggestions:</div>
+            {suggestions.map((suggestion, index) => (
+              <p key={index} className="suggestion" onClick={() => handleSuggestionClick(suggestion)}>
+                {suggestion}
+              </p>
+            ))}
+          </div>
+        )
+      )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default SearchComponent;

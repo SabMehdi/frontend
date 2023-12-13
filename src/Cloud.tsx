@@ -1,6 +1,7 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import axios from 'axios';
 import TagCloud from './TagCloud';
+import './TagCloudPage.css';
 
 interface WordData {
   positions: number[];
@@ -47,8 +48,9 @@ function TagCloudPage() {
   );
 
   return (
-    <div>
-      <select onChange={handleFileSelect}>
+    <div className="tag-cloud-container">
+      <h2 className="tag-cloud-header">Select a File for Tag Cloud</h2>
+      <select className="tag-cloud-select" onChange={handleFileSelect}>
         <option value="">Select a file</option>
         {fileNames.map(fileName => (
           <option key={fileName} value={fileName}>
@@ -56,18 +58,18 @@ function TagCloudPage() {
           </option>
         ))}
       </select>
-
-      <div>
+  
+      <div className="tag-cloud-input-container">
         <label>
           Minimum Occurrences:
-          <input type="number" value={minOccurrences} onChange={handleMinOccurrencesChange} min="0" />
+          <input className="tag-cloud-input" type="number" value={minOccurrences} onChange={handleMinOccurrencesChange} min="0" />
         </label>
       </div>
-
-      {/* Render TagCloud component with filtered data */}
+  
       <TagCloud invertedIndexData={filteredInvertedIndexData} />
     </div>
   );
+  
 }
 
 export default TagCloudPage;

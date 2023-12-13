@@ -1,0 +1,39 @@
+.tag-cloud-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .tag-cloud-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .tag-cloud-select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .tag-cloud-input-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+  }
+  
+  .tag-cloud-input-container label {
+    margin-right: 10px;
+  }
+  
+  .tag-cloud-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  

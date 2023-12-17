@@ -1,64 +1,79 @@
 .header {
-    background-color: #333;
-    color: white;
-    padding: 10px 0;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo {
-    font-size: 24px;
-  }
-  
-  .menu {
-    list-style: none;
-    display: flex;
-  }
-  
-  .menu li {
-    margin: 0 20px;
-  }
-  
-  .menu a {
-    color: white;
-    text-decoration: none;
-  }
-  
-  .menu-icon {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-  }
-  
-  .menu-icon .bar {
-    width: 30px;
-    height: 4px;
-    background-color: white;
-    margin: 6px 0;
-    transition: 0.4s;
-  }
-  
-  .menu.open {
-    display: flex;
-  }
-  
-  .menu.open .menu-icon {
-    display: flex;
-  }
-  
-  .menu.open .menu-icon .bar:nth-child(1) {
-    transform: rotate(-45deg) translate(-5px, 6px);
-  }
-  
-  .menu.open .menu-icon .bar:nth-child(2) {
-    opacity: 0;
-  }
-  
-  .menu.open .menu-icon .bar:nth-child(3) {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
-  
+  background-color: #333;
+  color: white;
+  padding: 10px 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
+.menu {
+  list-style: none;
+  display: flex;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.menu li {
+  margin: 0 20px;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+}
+
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-icon .bar {
+  width: 30px;
+  height: 4px;
+  background-color: white;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.menu.open {
+  display: flex;
+}
+
+.menu.open .menu-icon {
+  display: flex;
+}
+
+.menu.open .menu-icon .bar:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu.open .menu-icon .bar:nth-child(2) {
+  opacity: 0;
+}
+
+.menu.open .menu-icon .bar:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.logo-svg {
+  width: 50px;
+  /* Adjust width as needed */
+  height: auto;
+  fill: white;
+  /* Adjust the color as needed */
+}
+
+/* Add this class to your SVG component */
+
+.button:hover {
+  background-color: #2980b9;
+}

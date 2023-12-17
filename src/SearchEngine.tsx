@@ -99,14 +99,14 @@ const SearchComponent: React.FC = () => {
       type="text"
       value={query}
       onChange={(e) => setQuery(e.target.value)}
-      placeholder="Search..."
+      placeholder="Saisir un mot..."
     />
     <button 
       className="search-button"
       onClick={() => { handleSearch(query); }}
       disabled={isSearching}
     >
-      Search
+      Chercher
     </button>
 
     <div className="search-results">

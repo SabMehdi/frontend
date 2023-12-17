@@ -111,8 +111,8 @@ const FileUpload = () => {
     <div className="file-upload-container">
       <h1 className="file-upload-header">Veuiller sélectionner un fichier</h1>
       <input className="file-upload-input" type="file" onChange={handleFileChange}  title="choisir un fichier" />
-      <button className="file-upload-button" onClick={handleUpload}>Analyser</button>
-      <button className="file-upload-button" onClick={handleAnalyzeDirectory}>Analyze Directory</button> {/* Reintegrated button */}
+      <button className="file-upload-button" onClick={handleUpload}>Analyser un fichier</button>
+      <button className="file-upload-button" onClick={handleAnalyzeDirectory}>Analyser un repertoire</button> {/* Reintegrated button */}
       {error && <div className="error-message">{error}</div>}
       {renderResultTable()}
     </div>

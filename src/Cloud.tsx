@@ -49,9 +49,9 @@ function TagCloudPage() {
 
   return (
     <div className="tag-cloud-container">
-      <h2 className="tag-cloud-header">Select a File for Tag Cloud</h2>
+      <h2 className="tag-cloud-header">Nuage de mots</h2>
       <select className="tag-cloud-select" onChange={handleFileSelect}>
-        <option value="">Select a file</option>
+        <option value="">Choisir un fichier</option>
         {fileNames.map(fileName => (
           <option key={fileName} value={fileName}>
             {fileName}
@@ -61,7 +61,7 @@ function TagCloudPage() {
   
       <div className="tag-cloud-input-container">
         <label>
-          Minimum Occurrences:
+          Minimum d'occurrence:
           <input className="tag-cloud-input" type="number" value={minOccurrences} onChange={handleMinOccurrencesChange} min="0" />
         </label>
       </div>

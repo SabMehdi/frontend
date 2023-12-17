@@ -44,10 +44,6 @@ const TagCloud: React.FC<TagCloudProps> = ({ invertedIndexData }) => {
         >
         {data.original}
         </Link>
-
-
-
-
       ))}
     </div>
   );

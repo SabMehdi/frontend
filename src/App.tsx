@@ -7,6 +7,7 @@ import Header from './Header';
 import TagCloudPage from './Cloud';
 import SearchComponent from './SearchEngine';
 import DocumentPage from './DocumentPage';
+import GlobalTagCloud from './GlobalTagCLoud';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Route path='/cloud' Component={TagCloudPage}/>
       <Route path='/search' Component={SearchComponent}/>
       <Route path="/document/:id" Component={DocumentPage} />
+      <Route path="/GlobalCloud" Component={GlobalTagCloud} />
 
       </Routes>
     </BrowserRouter>

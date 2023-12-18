@@ -69,3 +69,11 @@ td {
 .result-table tr:nth-child(even) {
   background-color: #f2f2f2;
 }
+
+.tag-cloud-link {
+  text-decoration: none; /* This removes the underline */
+}
+
+.tag-cloud-link:hover {
+  text-decoration: underline; /* If you want the underline to appear on hover */
+}
